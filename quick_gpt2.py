@@ -23,6 +23,7 @@ class GPT2:
 			f.write(str(r.content))
 
 	def finetune(self, url, steps):
+		self.check_model()
 		self.get_data(url)
 		base_model = self.base_model
 		sess = gpt2.start_tf_sess()
@@ -37,9 +38,10 @@ class GPT2:
 	def download(self):
 		name = self.name
 		shutil.make_archive(name, 'zip', 'checkpoint/' + name)
-		save_to_drive(name + '.zip', name + '.zip')
-		print()
+		file_id = save_to_drive(name + '.zip', name + '.zip')
 		os.remove(name + '.zip')
+		print('Weights saved to google drive\nid:', file_id)
+
 
 	def generate(self, prefix=None, length=1023):
 		base_model = self.base_model
