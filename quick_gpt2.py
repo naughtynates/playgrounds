@@ -2,6 +2,8 @@ import gpt_2_simple as gpt2
 import requests
 import os
 from google.colab import files
+import shutil
+from utils import save_to_drive
 
 class GPT2:
 	def __init__(self, name, base_model):
@@ -34,7 +36,9 @@ class GPT2:
 
 	def download(self):
 		name = self.name
-		os.system('zip checkpoint/' + name)
+		shutil.make_archive(name, 'zip', 'checkpoint/' + name)
+		save_to_drive(name + '.zip', name + '.zip')
+		os.remove(name + '.zip')
 
 	def generate(self, prefix=None, length=1023):
 		base_model = self.base_model
