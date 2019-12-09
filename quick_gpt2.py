@@ -12,7 +12,7 @@ class GPT2:
 		self.base_model = base_model
 		if not os.path.exists('checkpoint'):
 			os.mkdir('checkpoint')
-		self.drive_path = 'drive/My Drive/'
+		self.drive_path = '/content/drive/My Drive/'
 
 	def check_model(self):
 		base_model = self.base_model
@@ -44,7 +44,7 @@ class GPT2:
 		os.remove(filename + '.zip')
 
 	def pull(self, filename):
-		mount_drive()
+		self.drive_path = mount_drive()
 		copyfile(self.drive_path + filename + '.zip', filename + '.zip')
 		with ZipFile(filename + '.zip', 'r') as z:
 			z.extractall('checkpoint/' + self.name)
