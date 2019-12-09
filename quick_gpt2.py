@@ -13,6 +13,7 @@ class GPT2:
 			gpt2.download_gpt2(model_name=base_model)
 
 	def generate(self, length=1023, prefix=None):
+		base_model = self.base_model
 		self.check_model()
 		sess = gpt2.start_tf_sess()
 		gpt2.load_gpt2(sess, model_name=base_model)
