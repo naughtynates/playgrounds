@@ -15,7 +15,7 @@ def generate(c):
       return_as_list=True,
   )
   if c['prefix'] is not None:
-    args['prefix'] = prefix
+    args['prefix'] = c['prefix']
   return gpt2.generate(sess, **args)[0]
 
 def run(c):
