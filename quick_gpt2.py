@@ -1,6 +1,7 @@
 import gpt_2_simple as gpt2
 import requests
 import os
+from google.colab import files
 
 class GPT2:
 	def __init__(self, name, base_model):
@@ -29,7 +30,11 @@ class GPT2:
 			model_name=self.base_model,
 			run_name=self.name,
 			steps=steps,
-		) 
+		)
+
+	def download(self):
+		name = self.name
+		os.system('zip checkpoint/' + name)
 
 	def generate(self, prefix=None, length=1023):
 		base_model = self.base_model
