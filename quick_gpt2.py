@@ -3,7 +3,7 @@ import requests
 import os
 from shutil import make_archive, copyfile
 from google.colab import files
-from utils import mount_drive
+from .utils import mount_drive
 
 class GPT2:
 	def __init__(self, name, base_model):
