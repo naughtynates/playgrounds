@@ -43,7 +43,6 @@ class GPT2:
 		copyfile(filename + '.zip', self.drive_path + filename + '.zip')
 		#file_id = save_to_drive(filename + '.zip', filename + '.zip')
 		os.remove(filename + '.zip')
-		print('Weights saved to google drive\nid:', file_id)
 
 	def load():
 		mount_drive()
