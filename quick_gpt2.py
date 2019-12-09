@@ -17,7 +17,7 @@ class GPT2:
 	def get_data(self, url):
 		with open('data.txt', 'w') as f:
 			r = requests.get(url)
-			f.write(r.content)
+			f.write(str(r.content))
 
 	def finetune(self, steps):
 		base_model = self.base_model
