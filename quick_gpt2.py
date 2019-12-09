@@ -1,9 +1,9 @@
 import gpt_2_simple as gpt2
 import requests
 import os
+from shutil import make_archive, copyfile
 from google.colab import files
-import shutil
-from .utils import save_to_drive
+from utils import mount_drive
 
 class GPT2:
 	def __init__(self, name, base_model):
@@ -11,6 +11,7 @@ class GPT2:
 		self.base_model = base_model
 		if not os.path.exists('checkpoint'):
 			os.mkdir('checkpoint')
+		self.drive_path = 'gdrive/My Drive/'
 
 	def check_model(self):
 		base_model = self.base_model
@@ -35,12 +36,16 @@ class GPT2:
 			steps=steps,
 		)
 
-	def download(self):
-		name = self.name
-		shutil.make_archive(name, 'zip', 'checkpoint/' + name)
-		file_id = save_to_drive(name + '.zip', name + '.zip')
-		os.remove(name + '.zip')
+	def save(self, filename):
+		mount_drive()
+		make_archive(filename, 'zip', 'checkpoint/' + filename)
+		copyfile(filename + '.zip', self.drive_path + filename + '.zip')
+		#file_id = save_to_drive(filename + '.zip', filename + '.zip')
+		os.remove(filename + '.zip')
 		print('Weights saved to google drive\nid:', file_id)
+
+	def load():
+		copyfile(src, dst)
 
 
 	def generate(self, prefix=None, length=1023):
