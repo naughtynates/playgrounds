@@ -2,6 +2,7 @@ import gpt_2_simple as gpt2
 import requests
 import os
 from shutil import make_archive, copyfile
+from zipfile import ZipFile
 from google.colab import files
 from .utils import mount_drive
 
@@ -45,7 +46,11 @@ class GPT2:
 		print('Weights saved to google drive\nid:', file_id)
 
 	def load():
-		copyfile(src, dst)
+		mount_drive()
+		copyfile(self.drive_path + filename + '.zip', filename + '.zip')
+		with ZipFile('sampleDir.zip', 'r') as zipObj:
+			zipObj.extractall('checkpoint/' + self.name)
+		
 
 
 	def generate(self, prefix=None, length=1023):
