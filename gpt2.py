@@ -1,9 +1,6 @@
 import gpt_2_simple as gpt2
 import os
 
-def restart_runtime():
-  os.kill(os.getpid(), 9)
-
 def check_model(c):
   if not os.path.isdir(os.path.join("models", c['model_name'])):
 	  gpt2.download_gpt2(model_name=c['model_name'])
