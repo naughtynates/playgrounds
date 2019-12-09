@@ -37,13 +37,13 @@ class GPT2:
 			steps=steps,
 		)
 
-	def push(self, filename):
+	def save_to_drive(self, filename):
 		self.drive_path = mount_drive()
 		make_archive(filename, 'zip', 'checkpoint/' + self.name)
 		copyfile(filename + '.zip', self.drive_path + filename + '.zip')
 		os.remove(filename + '.zip')
 
-	def pull(self, filename):
+	def get_from_drive(self, filename):
 		self.drive_path = mount_drive()
 		copyfile(self.drive_path + filename + '.zip', filename + '.zip')
 		with ZipFile(filename + '.zip', 'r') as z:
