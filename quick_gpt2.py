@@ -11,7 +11,7 @@ class GPT2:
 		self.base_model = base_model
 		if not os.path.exists('checkpoint'):
 			os.mkdir('checkpoint')
-		self.drive_path = 'gdrive/My Drive/'
+		self.drive_path = 'drive/My Drive/'
 
 	def check_model(self):
 		base_model = self.base_model
