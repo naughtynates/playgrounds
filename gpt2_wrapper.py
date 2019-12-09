@@ -8,7 +8,7 @@ def check_model(c):
   if not os.path.isdir(os.path.join("models", c['model_name'])):
 	  gpt2.download_gpt2(model_name=c['model_name'])
 
-def generate(c, prefix=None):
+def gen(c, prefix=None):
   check_model(c)
   sess = gpt2.start_tf_sess()
   gpt2.load_gpt2(sess, model_name=c['model_name'])
