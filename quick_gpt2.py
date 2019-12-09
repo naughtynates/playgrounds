@@ -43,7 +43,7 @@ class GPT2:
 		copyfile(filename + '.zip', self.drive_path + filename + '.zip')
 		os.remove(filename + '.zip')
 
-	def get_from_drive(self, filename):
+	def load_from_drive(self, filename):
 		self.drive_path = mount_drive()
 		copyfile(self.drive_path + filename + '.zip', filename + '.zip')
 		with ZipFile(filename + '.zip', 'r') as z:
