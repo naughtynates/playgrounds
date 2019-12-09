@@ -38,7 +38,7 @@ class GPT2:
 
 	def save(self, filename):
 		mount_drive()
-		make_archive(filename, 'zip', 'checkpoint/' + filename)
+		make_archive(filename, 'zip', 'checkpoint/' + self.name)
 		copyfile(filename + '.zip', self.drive_path + filename + '.zip')
 		#file_id = save_to_drive(filename + '.zip', filename + '.zip')
 		os.remove(filename + '.zip')
