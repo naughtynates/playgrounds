@@ -41,13 +41,13 @@ class GPT2:
 		)
 		if prefix is not None:
 			args['prefix'] = prefix
+
+		sess = gpt2.start_tf_sess()
 		if not os.path.exists('checkpoint/' + name):
 			gpt2.load_gpt2(sess, model_name=base_model)
 		else:
 			args['run_name'] = name
 			gpt2.load_gpt2(sess, model_name=base_model, run_name=name)
-		sess = gpt2.start_tf_sess()
-		gpt2.load_gpt2(sess, model_name=base_model)
 		return gpt2.generate(sess, **args)[0]
 
 
