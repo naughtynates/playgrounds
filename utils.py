@@ -36,8 +36,9 @@ def load_from_drive(name, path):
 	  		w.write(f.read())
 	drive.flush_and_unmount()
 
-def mount_drive():
-	drive.mount('/content/drive')
+def mount_drive(drive_path='/content/drive'):
+	drive.mount(drive_path)
+	return drive_path
 
 
 
