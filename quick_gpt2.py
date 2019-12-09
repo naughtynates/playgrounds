@@ -19,7 +19,8 @@ class GPT2:
 			r = requests.get(url)
 			f.write(str(r.content))
 
-	def finetune(self, steps):
+	def finetune(self, url, steps):
+		self.get_data(url)
 		base_model = self.base_model
 		sess = gpt2.start_tf_sess()
 		gpt2.finetune(
