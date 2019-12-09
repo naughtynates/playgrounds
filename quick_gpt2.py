@@ -44,11 +44,11 @@ class GPT2:
 		#file_id = save_to_drive(filename + '.zip', filename + '.zip')
 		os.remove(filename + '.zip')
 
-	def load():
+	def load(self, filename):
 		mount_drive()
 		copyfile(self.drive_path + filename + '.zip', filename + '.zip')
-		with ZipFile('sampleDir.zip', 'r') as zipObj:
-			zipObj.extractall('checkpoint/' + self.name)
+		with ZipFile(filename + '.zip', 'r') as z:
+			z.extractall('checkpoint/' + self.name)
 		
 
 
