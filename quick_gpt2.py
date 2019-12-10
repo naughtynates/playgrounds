@@ -49,8 +49,6 @@ class GPT2:
 		with ZipFile(weights_name + '.zip', 'r') as z:
 			z.extractall('checkpoint/' + self.name)
 		os.remove(weights_name + '.zip')
-		
-
 
 	def generate(self, prefix=None, length=1023):
 		base_model = self.base_model
@@ -70,6 +68,6 @@ class GPT2:
 		else:
 			args['run_name'] = name
 			gpt2.load_gpt2(sess, run_name=name)
-		return gpt2.generate(sess, **args)[0]
+		return str(gpt2.generate(sess, **args)[0])
 
 
