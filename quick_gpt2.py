@@ -10,9 +10,10 @@ class GPT2:
 	def __init__(self, project_name, base_model):
 		self.name = project_name
 		self.base_model = base_model
+		self.drive_path = '/content/drive/My Drive/'
 		if not os.path.exists('checkpoint'):
 			os.mkdir('checkpoint')
-		self.drive_path = '/content/drive/My Drive/'
+		self.check_model()
 
 	def check_model(self):
 		base_model = self.base_model
@@ -25,7 +26,6 @@ class GPT2:
 			f.write(str(r.content))
 
 	def finetune(self, url, steps):
-		self.check_model()
 		self.get_data(url)
 		base_model = self.base_model
 		sess = gpt2.start_tf_sess()
@@ -69,7 +69,7 @@ class GPT2:
 			gpt2.load_gpt2(sess, model_name=base_model)
 		else:
 			args['run_name'] = name
-			gpt2.load_gpt2(sess, model_name=base_model, run_name=name)
+			gpt2.load_gpt2(sess, run_name=name)
 		return gpt2.generate(sess, **args)[0]
 
 
