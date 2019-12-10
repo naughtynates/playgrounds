@@ -7,8 +7,8 @@ from google.colab import files
 from .utils import mount_drive
 
 class GPT2:
-	def __init__(self, name, base_model):
-		self.name = name
+	def __init__(self, project_name, base_model):
+		self.name = project_name
 		self.base_model = base_model
 		if not os.path.exists('checkpoint'):
 			os.mkdir('checkpoint')
@@ -37,18 +37,18 @@ class GPT2:
 			steps=steps,
 		)
 
-	def save_to_drive(self, filename):
+	def save_to_drive(self, weights_name):
 		self.drive_path = mount_drive()
-		make_archive(filename, 'zip', 'checkpoint/' + self.name)
-		copyfile(filename + '.zip', self.drive_path + filename + '.zip')
-		os.remove(filename + '.zip')
+		make_archive(weights_name, 'zip', 'checkpoint/' + self.name)
+		copyfile(weights_name + '.zip', self.drive_path + weights_name + '.zip')
+		os.remove(weights_name + '.zip')
 
-	def load_from_drive(self, filename):
+	def load_from_drive(self, weights_name):
 		self.drive_path = mount_drive()
-		copyfile(self.drive_path + filename + '.zip', filename + '.zip')
-		with ZipFile(filename + '.zip', 'r') as z:
+		copyfile(self.drive_path + weights_name + '.zip', weights_name + '.zip')
+		with ZipFile(weights_name + '.zip', 'r') as z:
 			z.extractall('checkpoint/' + self.name)
-		os.remove(filename + '.zip')
+		os.remove(weights_name + '.zip')
 		
 
 
