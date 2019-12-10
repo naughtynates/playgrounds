@@ -21,9 +21,9 @@ class GPT2:
 			gpt2.download_gpt2(model_name=base_model)
 
 	def get_data(self, url):
-		with open('data.txt', 'w') as f:
+		with open('data.txt', 'wb') as f:
 			r = requests.get(url)
-			f.write(str(r.content))
+			f.write(r.content)
 
 	def finetune(self, url, steps):
 		self.get_data(url)
