@@ -16,9 +16,8 @@ class GPT2:
 		self.check_model()
 
 	def check_model(self):
-		base_model = self.base_model
-		if not os.path.isdir(os.path.join("models", base_model)):
-			gpt2.download_gpt2(model_name=base_model)
+		if not os.path.isdir(os.path.join("models", self.base_model)):
+			gpt2.download_gpt2(model_name=self.base_model)
 
 	def get_data(self, url):
 		with open('data.txt', 'wb') as f:
@@ -27,7 +26,6 @@ class GPT2:
 
 	def finetune(self, url, steps):
 		self.get_data(url)
-		base_model = self.base_model
 		sess = gpt2.start_tf_sess()
 		gpt2.finetune(
 			sess,
@@ -51,11 +49,9 @@ class GPT2:
 		os.remove(weights_name + '.zip')
 
 	def generate(self, prefix=None, length=1023):
-		base_model = self.base_model
-		name = self.name
 		self.check_model()
 		args = dict(
-				model_name=base_model, 
+				model_name=self.base_model, 
 				length=length,
 				return_as_list=True,
 		)
@@ -63,11 +59,11 @@ class GPT2:
 			args['prefix'] = prefix
 
 		sess = gpt2.start_tf_sess()
-		if not os.path.exists('checkpoint/' + name):
-			gpt2.load_gpt2(sess, model_name=base_model)
+		if not os.path.exists('checkpoint/' + self.name):
+			gpt2.load_gpt2(sess, model_name=self.base_model)
 		else:
-			args['run_name'] = name
-			gpt2.load_gpt2(sess, run_name=name)
+			args['run_name'] = self.name
+			gpt2.load_gpt2(sess, run_name=self.name)
 		return str(gpt2.generate(sess, **args)[0])
 
 
