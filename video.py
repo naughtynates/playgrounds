@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
 from google.colab.patches import cv2_imshow
 
 class VideoEditor:
@@ -17,7 +18,7 @@ class VideoEditor:
 				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 				img = f(img)
 				out.write(img)
-				cv2_imshow(img)
+				plt.imshow(img)
 			else:
 				break
 
