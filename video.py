@@ -23,7 +23,7 @@ class VideoEditor:
 				out.write(img)
 				clear_output()
 				plt.imshow(img)
-				plt.pause(0.000001)
+				plt.pause(0.000000001)
 			else:
 				break
 
