@@ -5,7 +5,6 @@ from face_toolbox_keras.models.detector import face_detector
 from face_toolbox_keras.models.detector.iris_detector import IrisDetector
 import numpy as np
 from utils import utils
-from matplotlib import pyplot as plt
 from google.colab import files
 import warnings
 warnings.filterwarnings("ignore")
