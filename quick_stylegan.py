@@ -40,13 +40,13 @@ class StyleGAN:
 		img = utils.post_process_result(image, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
-	def swap(self, name, out_path, id_map={}):
+	def swap(self, filename, out_path, id_map={}):
 		def processor(img):
 			cv2.imwrite('temp.jpg', img)
 			face, img = self.simple_swap('temp.jpg', 'yaka')
 			return img
 		editor = VideoEditor()
-		editor.process(processor, files['name'], out_path)
+		editor.process(processor, files[filename], out_path)
 
 
 
