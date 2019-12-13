@@ -1,7 +1,5 @@
 import numpy as np
 import cv2
-from matplotlib import pyplot as plt
-from IPython.display import clear_output
 from google.colab.patches import cv2_imshow
 
 class VideoEditor:
@@ -20,9 +18,6 @@ class VideoEditor:
 			if ret:
 				img = f(img)
 				out.write(img)
-				clear_output()
-				plt.imshow(img)
-				plt.pause(0.000000001)
 			else:
 				break
 

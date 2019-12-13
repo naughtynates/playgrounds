@@ -3,6 +3,8 @@ from face_toolbox_keras.models.verifier.face_verifier import FaceVerifier
 from face_toolbox_keras.models.parser import face_parser
 from face_toolbox_keras.models.detector import face_detector
 from face_toolbox_keras.models.detector.iris_detector import IrisDetector
+from matplotlib import pyplot as plt
+from IPython.display import clear_output
 import numpy as np
 import cv2
 from utils import utils
@@ -45,6 +47,9 @@ class StyleGAN:
 		def processor(img):
 			cv2.imwrite('temp.jpg', img)
 			face, img = self.simple_swap('temp.jpg', 'yaka')
+			clear_output()
+			plt.imshow(img)
+			plt.pause(0.000000001)
 			return img
 		editor = VideoEditor()
 		editor.process(processor, self.files[filename], out_path)
