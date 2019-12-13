@@ -21,7 +21,7 @@ class VideoEditor:
 				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 				img = f(img)
 				out.write(img)
-				#clear_output()
+				clear_output()
 				plt.imshow(img)
 				plt.pause(0.000001)
 			else:
