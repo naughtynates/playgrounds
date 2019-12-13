@@ -32,11 +32,11 @@ class StyleGAN:
 		self.images[name] = filename
 
 	def simple_swap(self, image, person):
-		src, mask, aligned_im, (x0, y0, x1, y1), landmarks = utils.get_src_inputs(image, fd, fp, idet)
-		tar, emb_tar = utils.get_tar_inputs(self.people[person], fd, fv)
-		out = model.inference(src, mask, tar, emb_tar)
+		src, mask, aligned_im, (x0, y0, x1, y1), landmarks = utils.get_src_inputs(image, self.fd, self.fp, self.idet)
+		tar, emb_tar = utils.get_tar_inputs(self.people[person], self.fd, self.fv)
+		out = self.model.inference(src, mask, tar, emb_tar)
 		face = np.squeeze(((out[0] + 1) * 255 / 2).astype(np.uint8))
-		img = utils.post_process_result(fn_src, fd, result_face, aligned_im, src, x0, y0, x1, y1, landmarks)
+		img = utils.post_process_result(fn_src, self.fd, result_face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
 
