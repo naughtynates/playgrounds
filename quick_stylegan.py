@@ -11,7 +11,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class StyleGAN:
-	def __init__(self, project_name, base_model):
+	def __init__(self):
 		self.model = FaceTranslationGANInferenceModel()
 		self.fv = FaceVerifier(classes=512)
 		self.fp = face_parser.FaceParser()
