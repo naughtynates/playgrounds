@@ -14,6 +14,7 @@ class VideoEditor:
 		while 1:
 			ret, img = stream.read()
 			if ret:
+				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 				img = f(img)
 				out.write(img)
 				cv2_imshow(img)
