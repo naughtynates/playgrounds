@@ -6,6 +6,7 @@ from face_toolbox_keras.models.detector.iris_detector import IrisDetector
 from matplotlib import pyplot as plt
 from IPython.display import clear_output
 import numpy as np
+import os
 import cv2
 from utils import utils
 from google.colab import auth
@@ -28,18 +29,27 @@ class StyleGAN:
 
 	def add_person(self, name):
 		filenames = [k for k,v in files.upload().items()]
-		if name in self.people:
-			self.people[name] += filenames
-		else:
-			self.people[name] = filenames
+		face, embedding = utils.get_tar_inputs(filenames, self.fd, self.fv)
+		self.people[name] = {
+			'images': filenames, 
+			'face': face,
+			'embedding': embedding,
+		}
 
-	def add_file(self, name):
-		filename = [k for k,v in files.upload().items()][0]
+	def add_file(self, name, url=None, path=None):
+		if path is not None:
+			filename = path
+		else:
+			if url is not None:
+				os.system('wget ' + url)
+				filename = url.split('/')[-1]
+			else:
+				filename = [k for k,v in files.upload().items()][0]
 		self.files[name] = filename
 
 	def img_swap(self, filename, person):
 		src, mask, aligned_im, (x0, y0, x1, y1), landmarks = utils.get_src_inputs(filename, self.fd, self.fp, self.idet)
-		tar, emb_tar = utils.get_tar_inputs(self.people[person], self.fd, self.fv)
+		tar, emb_tar = self.people[person]['face'], self.people[person]['embedding']
 		out = self.model.inference(src, mask, tar, emb_tar)
 		face = np.squeeze(((out[0] + 1) * 255 / 2).astype(np.uint8))
 		img = utils.post_process_result(filename, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
