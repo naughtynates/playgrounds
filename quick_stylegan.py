@@ -21,11 +21,11 @@ class StyleGAN:
 		self.images = {}
 
 	def add_person(self, name):
-		filename = [k for k,v in files.upload().items()][0]
+		filenames = [k for k,v in files.upload().items()]
 		if name in self.people:
-			self.people[name] += [filename]
+			self.people[name] += filenames
 		else:
-			self.people[name] = [filename]
+			self.people[name] = filenames
 
 	def add_image(self, name):
 		filename = [k for k,v in files.upload().items()][0]
