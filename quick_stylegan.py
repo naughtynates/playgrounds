@@ -4,6 +4,7 @@ from face_toolbox_keras.models.parser import face_parser
 from face_toolbox_keras.models.detector import face_detector
 from face_toolbox_keras.models.detector.iris_detector import IrisDetector
 import numpy as np
+import cv2
 from utils import utils
 from google.colab import files
 import warnings
