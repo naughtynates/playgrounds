@@ -46,7 +46,7 @@ class StyleGAN:
 			face, img = self.simple_swap('temp.jpg', 'yaka')
 			return img
 		editor = VideoEditor()
-		editor.process(processor, files[filename], out_path)
+		editor.process(processor, self.files[filename], out_path)
 
 
 
