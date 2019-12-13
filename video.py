@@ -16,9 +16,8 @@ class VideoEditor:
 		while 1:
 			ret, img = stream.read()
 			count += 1
-			print(ret, count)
+			print('Frame:', count)
 			if ret:
-				img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 				img = f(img)
 				out.write(img)
 				clear_output()
