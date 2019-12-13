@@ -7,6 +7,8 @@ import numpy as np
 from utils import utils
 from google.colab import files
 import warnings
+from .video import VideoEditor
+
 warnings.filterwarnings("ignore")
 
 class StyleGAN:
@@ -17,7 +19,7 @@ class StyleGAN:
 		self.fd = face_detector.FaceAlignmentDetector()
 		self.idet = IrisDetector()
 		self.people = {}
-		self.images = {}
+		self.files = {}
 
 	def add_person(self, name):
 		filenames = [k for k,v in files.upload().items()]
@@ -26,9 +28,9 @@ class StyleGAN:
 		else:
 			self.people[name] = filenames
 
-	def add_image(self, name):
+	def add_file(self, name):
 		filename = [k for k,v in files.upload().items()][0]
-		self.images[name] = filename
+		self.files[name] = filename
 
 	def simple_swap(self, image, person):
 		src, mask, aligned_im, (x0, y0, x1, y1), landmarks = utils.get_src_inputs(image, self.fd, self.fp, self.idet)
@@ -38,8 +40,13 @@ class StyleGAN:
 		img = utils.post_process_result(image, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
-
-
+	def swap(self, name, out_path, id_map={}):
+		def processor(img):
+			cv2.imwrite('temp.jpg', img)
+			face, img = self.simple_swap('temp.jpg', 'yaka')
+			return img
+		editor = VideoEditor()
+		editor.process(processor, files['name'], out_path)
 
 
 
