@@ -7,8 +7,8 @@ class VideoEditor:
 		pass
 
 	def process(self, f, in_path, out_path):
-		stream = cv2.VideoCapture(in_path)
-		fourcc = cv2.cv.CV_FOURCC(*'XVID')
+		stream = VideoCapture(in_path)
+		fourcc = cv2.VideoWriter_fourcc(*'MP4V')
 		out = cv2.VideoWriter(out_path, fourcc, 20.0, (640,480))
 
 		while 1:
