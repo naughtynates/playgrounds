@@ -27,7 +27,7 @@ class StyleGAN:
 		else:
 			self.people[name] = [filename]
 
-	def add_image(self, name)
+	def add_image(self, name):
 		filename = [k for k,v in files.upload().items()][0]
 		self.images[name] = filename
 
