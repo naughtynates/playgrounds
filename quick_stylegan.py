@@ -36,7 +36,7 @@ class StyleGAN:
 		tar, emb_tar = utils.get_tar_inputs(self.people[person], self.fd, self.fv)
 		out = self.model.inference(src, mask, tar, emb_tar)
 		face = np.squeeze(((out[0] + 1) * 255 / 2).astype(np.uint8))
-		img = utils.post_process_result(image, self.fd, result_face, aligned_im, src, x0, y0, x1, y1, landmarks)
+		img = utils.post_process_result(image, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
 
