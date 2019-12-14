@@ -34,7 +34,7 @@ class StyleGAN:
 			filenames = []
 			for url in urls:
 				os.system('wget ' + url)
-				filename.append(url.split('/')[-1])
+				filenames.append(url.split('/')[-1])
 		else:
 			filenames = [k for k,v in files.upload().items()]
 		face, embedding = utils.get_tar_inputs(filenames, self.fd, self.fv)
