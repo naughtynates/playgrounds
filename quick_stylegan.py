@@ -3,6 +3,7 @@ from face_toolbox_keras.models.verifier.face_verifier import FaceVerifier
 from face_toolbox_keras.models.parser import face_parser
 from face_toolbox_keras.models.detector import face_detector
 from face_toolbox_keras.models.detector.iris_detector import IrisDetector
+import face_recognition
 from matplotlib import pyplot as plt
 from IPython.display import clear_output
 import numpy as np
@@ -38,10 +39,15 @@ class StyleGAN:
 		else:
 			filenames = [k for k,v in files.upload().items()]
 		face, embedding = utils.get_tar_inputs(filenames, self.fd, self.fv)
+		img = cv2.imread(filenames[0])
+		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+		bounding_boxes = face_recognition.face_locations(img)
+		encs = face_recognition.face_encodings(img, bounding_boxes)
 		self.people[name] = {
 			'images': filenames, 
 			'face': face,
 			'embedding': embedding,
+			'rec_enc': encs[0]
 		}
 
 	def add_file(self, name, url=None, path=None):
@@ -66,13 +72,22 @@ class StyleGAN:
 	def video_swap(self, filename, out_path, face_map={}, autosave=False):
 		def processor(img):
 			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-			cv2.imwrite('temp.jpg', img)
-			try:
-				face, img = self.image_swap('temp.jpg', face_map['all'])
-			except:
-				img = cv2.resize(img, (768, 432))
+			img = cv2.resize(img, (768, 432))
+			bounding_boxes = face_recognition.face_locations(img)
+			if len(bounding_boxes) > 0:
+				src_encs = face_recognition.face_encodings(img, bounding_boxes)
+				tar_encs = [self.people[x]['rec_end'] for x in face_map.keys()]
+				for i in rangea(len(src_encs)):
+					bb = bounding_boxes[i]
+					scores = face_recognition.compare_faces(tar_encs, src_encs[i])
+					matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
+					for match in matches:
+						face_img = img[bb[0]:bb[1], bb[2]:bb[3]]
+						cv2.imwrite('temp.jpg', img)
+						face, face_img = self.image_swap('temp.jpg', face_map[match])
+						img[bb[0]:bb[1], bb[2]:bb[3]] = face_img
 			clear_output()
-			plt.imshow(img)
+			plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 			plt.pause(0.000000001)
 			return img
 		if autosave:
