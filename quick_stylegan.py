@@ -70,7 +70,7 @@ class StyleGAN:
 		return face, img
 
 	def video_swap(self, filename, out_path, face_map={}, autosave=False):
-		def processor(img):
+		def processor(img, frame_num):
 			img = self.auto_resize(img)
 			bounding_boxes = face_recognition.face_locations(img)
 			if len(bounding_boxes) > 0:
@@ -93,6 +93,8 @@ class StyleGAN:
 								img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
 					except AssertionError:
 						pass
+					if frame_num % 30 == 0:
+						clear_output()
 				except Exception:
 					pass
 			plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))

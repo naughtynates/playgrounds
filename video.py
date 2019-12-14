@@ -9,7 +9,7 @@ class VideoEditor:
 	def process(self, in_path, out_path):
 		stream = cv2.VideoCapture(in_path)
 		ret, img = stream.read()
-		img = self.f(img)
+		img = self.f(img, frame_num)
 		fourcc = cv2.VideoWriter_fourcc(*'MP4V')
 		out = cv2.VideoWriter(out_path, fourcc, 20.0, (img.shape[1], img.shape[0]))
 		#out = cv2.VideoWriter(out_path, -1, 20.0, (640,480))
@@ -22,7 +22,7 @@ class VideoEditor:
 				cv2.destroyAllWindows()
 				break
 			else:
-				img = self.f(img)
+				img = self.f(img, frame_num)
 				out.write(img)
 
 
