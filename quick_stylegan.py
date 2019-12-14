@@ -69,7 +69,7 @@ class StyleGAN:
 			try:
 				face, img = self.image_swap('temp.jpg', face_map['all'])
 			except:
-				img = cv2.resize(img, (432,768))
+				img = cv2.resize(img, (768,432))
 			clear_output()
 			plt.imshow(img)
 			plt.pause(0.000000001)
