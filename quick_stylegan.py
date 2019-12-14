@@ -73,6 +73,7 @@ class StyleGAN:
 		def processor(img):
 			img = self.auto_resize(img)
 			bounding_boxes = face_recognition.face_locations(img)
+			print('bbs', len(bounding_boxes))
 			if len(bounding_boxes) > 0:
 				try:
 					src_encs = face_recognition.face_encodings(img, bounding_boxes)
@@ -81,6 +82,7 @@ class StyleGAN:
 						bb = bounding_boxes[i]
 						scores = face_recognition.compare_faces(tar_encs, src_encs[i])
 						matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
+						print(scores, matches)
 						for match in matches:
 							x1, x2 = np.max([0, bb[0] - 10]), np.min([img.shape[0], bb[1] + 10])
 							y1, y2 = np.max([0, bb[2] - 10]), np.min([img.shape[1], bb[3] + 10])
@@ -92,8 +94,7 @@ class StyleGAN:
 							img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
 				except AssertionError:
 					pass
-			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-			plt.imshow(img)
+			plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 			plt.pause(0.000000001)
 			return img
 		if autosave:
