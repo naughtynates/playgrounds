@@ -66,7 +66,10 @@ class StyleGAN:
 	def video_swap(self, filename, out_path, face_map={}, autosave=False):
 		def processor(img):
 			cv2.imwrite('temp.jpg', img)
-			face, img = self.image_swap('temp.jpg', face_map['all'])
+			try:
+				face, img = self.image_swap('temp.jpg', face_map['all'])
+			except:
+				img = cv2.resize(img, (432,768))
 			clear_output()
 			plt.imshow(img)
 			plt.pause(0.000000001)
