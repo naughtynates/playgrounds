@@ -15,11 +15,12 @@ class VideoEditor:
 			ret, img = stream.read()
 			count += 1
 			print('Frame:', count)
-			if ret:
+			if not ret or cv2.waitKey(25) & 0XFF == ord('q'):
+				cv2.destroyAllWindows()
+				break
+			else:
 				img = f(img)
 				out.write(img)
-			else:
-				break
 
 
 
