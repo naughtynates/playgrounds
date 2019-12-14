@@ -81,16 +81,13 @@ class StyleGAN:
 						bb = bounding_boxes[i]
 						scores = face_recognition.compare_faces(tar_encs, src_encs[i])
 						matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
-						print(scores, matches)
 						for match in matches:
-							#x1, x2 = np.max([0, bb[0] - 10]), np.min([img.shape[0], bb[1] + 10])
-							#y1, y2 = np.max([0, bb[2] - 10]), np.min([img.shape[1], bb[3] + 10])
-							x1, x2 = np.max([0, bb[0] - 10]), np.min([img.shape[1], bb[2] + 10])
-							y1, y2 = np.max([0, bb[3] - 10]), np.min([img.shape[0], bb[1] + 10])
+							adj = 20
+							x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
+                    		y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
 							face_img = img[x1:x2, y1:y2]
 							cv2.imwrite('temp.jpg', face_img)
 							face, face_img = self.image_swap('temp.jpg', face_map[match])
-							plt.imshow(face_img)
 							plt.pause(0.000000001)
 							img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
 				except AssertionError:
