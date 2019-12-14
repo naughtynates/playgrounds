@@ -84,7 +84,7 @@ class StyleGAN:
 						for match in matches:
 							adj = 20
 							x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
-                    		y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
+							y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
 							face_img = img[x1:x2, y1:y2]
 							cv2.imwrite('temp.jpg', face_img)
 							face, face_img = self.image_swap('temp.jpg', face_map[match])
