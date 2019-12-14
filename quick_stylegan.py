@@ -73,7 +73,6 @@ class StyleGAN:
 		def processor(img):
 			img = self.auto_resize(img)
 			bounding_boxes = face_recognition.face_locations(img)
-			print('bbs', len(bounding_boxes))
 			if len(bounding_boxes) > 0:
 				try:
 					src_encs = face_recognition.face_encodings(img, bounding_boxes)
@@ -84,9 +83,11 @@ class StyleGAN:
 						matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
 						print(scores, matches)
 						for match in matches:
-							x1, x2 = np.max([0, bb[0] - 10]), np.min([img.shape[0], bb[1] + 10])
-							y1, y2 = np.max([0, bb[2] - 10]), np.min([img.shape[1], bb[3] + 10])
-							face_img = img[x1:x2, y1:y2]
+							#x1, x2 = np.max([0, bb[0] - 10]), np.min([img.shape[0], bb[1] + 10])
+							#y1, y2 = np.max([0, bb[2] - 10]), np.min([img.shape[1], bb[3] + 10])
+							x1, x2 = np.max([0, bb[0] - 10]), np.min([img.shape[1], bb[2] + 10])
+                        	y1, y2 = np.max([0, bb[3] - 10]), np.min([img.shape[0], bb[1] + 10])
+                        	face_img = img[x1:x2, y1:y2]
 							cv2.imwrite('temp.jpg', face_img)
 							face, face_img = self.image_swap('temp.jpg', face_map[match])
 							plt.imshow(face_img)
