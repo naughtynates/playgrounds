@@ -27,8 +27,11 @@ class StyleGAN:
 		self.people = {}
 		self.files = {}
 
-	def add_person(self, name):
-		filenames = [k for k,v in files.upload().items()]
+	def add_person(self, name, paths=[]):
+		if len(paths) > 0:
+			filenames = paths
+		else:
+			filenames = [k for k,v in files.upload().items()]
 		face, embedding = utils.get_tar_inputs(filenames, self.fd, self.fv)
 		self.people[name] = {
 			'images': filenames, 

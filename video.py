@@ -21,7 +21,9 @@ class VideoEditor:
 				cv2.destroyAllWindows()
 				break
 			else:
+				print(img.shape)
 				img = f(img)
+				print(img.shape)
 				out.write(img)
 
 
