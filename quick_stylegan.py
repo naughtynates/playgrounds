@@ -82,10 +82,12 @@ class StyleGAN:
 					scores = face_recognition.compare_faces(tar_encs, src_encs[i])
 					matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
 					for match in matches:
-						face_img = img[bb[0]:bb[1], bb[2]:bb[3]]
-						cv2.imwrite('temp.jpg', img)
+						x1, x2 = np.max([0, bb[0] - 10]), np.min([img.shape[0], bb[1] + 10])
+						y1, y2 = np.max([0, bb[2] - 10]), np.min([img.shape[1], bb[3] + 10])
+						face_img = img[x1:x2, y1:y2]
+						cv2.imwrite('temp.jpg', face_img)
 						face, face_img = self.image_swap('temp.jpg', face_map[match])
-						img[bb[0]:bb[1], bb[2]:bb[3]] = face_img
+						img[x1:x2, y1:y2] = face_img
 			clear_output()
 			plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 			plt.pause(0.000000001)
