@@ -47,7 +47,7 @@ class StyleGAN:
 				filename = [k for k,v in files.upload().items()][0]
 		self.files[name] = filename
 
-	def img_swap(self, filename, person):
+	def image_swap(self, filename, person):
 		src, mask, aligned_im, (x0, y0, x1, y1), landmarks = utils.get_src_inputs(filename, self.fd, self.fp, self.idet)
 		tar, emb_tar = self.people[person]['face'], self.people[person]['embedding']
 		out = self.model.inference(src, mask, tar, emb_tar)
@@ -58,7 +58,7 @@ class StyleGAN:
 	def video_swap(self, filename, out_path, id_map={}, autosave=False):
 		def processor(img):
 			cv2.imwrite('temp.jpg', img)
-			face, img = self.img_swap('temp.jpg', 'yaka')
+			face, img = self.image_swap('temp.jpg', 'yaka')
 			clear_output()
 			plt.imshow(img)
 			plt.pause(0.000000001)
