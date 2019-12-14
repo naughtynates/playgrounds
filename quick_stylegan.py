@@ -68,8 +68,8 @@ class StyleGAN:
 			return img
 		if autosave:
 			auth.authenticate_user()
-		editor = VideoEditor()
-		editor.process(processor, self.files[filename], out_path)
+		editor = VideoEditor(processor)
+		editor.process(self.files[filename], out_path)
 		if autosave:
 			save_to_drive(out_path, out_path)
 

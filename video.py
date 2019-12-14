@@ -3,12 +3,13 @@ import cv2
 from google.colab.patches import cv2_imshow
 
 class VideoEditor:
-	def __init__(self):
-		pass
+	def __init__(self, f):
+		self.f = f
 
-	def process(self, f, in_path, out_path):
+	def process(self, in_path, out_path):
 		stream = cv2.VideoCapture(in_path)
 		ret, img = stream.read()
+		img = self.f(img)
 		fourcc = cv2.VideoWriter_fourcc(*'MP4V')
 		out = cv2.VideoWriter(out_path, fourcc, 20.0, (img.shape[1], img.shape[0]))
 		#out = cv2.VideoWriter(out_path, -1, 20.0, (640,480))
@@ -22,7 +23,7 @@ class VideoEditor:
 				break
 			else:
 				print(img.shape)
-				img = f(img)
+				img = self.f(img)
 				print(img.shape)
 				out.write(img)
 
