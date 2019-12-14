@@ -65,15 +65,15 @@ class StyleGAN:
 
 	def video_swap(self, filename, out_path, face_map={}, autosave=False):
 		def processor(img):
+			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 			cv2.imwrite('temp.jpg', img)
 			try:
 				face, img = self.image_swap('temp.jpg', face_map['all'])
 			except:
-				img = cv2.resize(img, (768,432))
+				img = cv2.resize(img, (768, 432))
 			clear_output()
 			plt.imshow(img)
 			plt.pause(0.000000001)
-			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 			return img
 		if autosave:
 			auth.authenticate_user()
