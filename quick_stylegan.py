@@ -7,6 +7,7 @@ import face_recognition
 from matplotlib import pyplot as plt
 from IPython.display import clear_output
 import numpy as np
+from toolz import curry
 import os
 import cv2
 from utils import utils
@@ -72,7 +73,7 @@ class StyleGAN:
 	def video_swap(self, filename, out_path, face_map={}, autosave=False):
 		def processor(img):
 			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-			img = cv2.resize(img, (768, 432))
+			img = utils.auto_resize(img)
 			bounding_boxes = face_recognition.face_locations(img)
 			if len(bounding_boxes) > 0:
 				src_encs = face_recognition.face_encodings(img, bounding_boxes)
@@ -92,6 +93,7 @@ class StyleGAN:
 			return img
 		if autosave:
 			auth.authenticate_user()
+		utils.auto_resize = curry(utils.auto_resize, max_size=1200)
 		editor = VideoEditor(processor)
 		editor.process(self.files[filename], out_path)
 		if autosave:
