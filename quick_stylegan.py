@@ -92,10 +92,10 @@ class StyleGAN:
 								face, face_img = self.image_swap('temp.jpg', face_map[match])
 								plt.pause(0.000000001)
 								img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
-					except AssertionError:
-						pass
-				except Exception:
-					pass
+					except AssertionError as e:
+						print(e)
+				except Exception as e:
+					print(e)
 			if frame_num % 30 == 0:
 				clear_output()
 			plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
