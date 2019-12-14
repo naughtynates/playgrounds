@@ -63,10 +63,10 @@ class StyleGAN:
 		img = utils.post_process_result(filename, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
-	def video_swap(self, filename, out_path, id_map={}, autosave=False):
+	def video_swap(self, filename, out_path, face_map={}, autosave=False):
 		def processor(img):
 			cv2.imwrite('temp.jpg', img)
-			face, img = self.image_swap('temp.jpg', 'yaka')
+			face, img = self.image_swap('temp.jpg', face_map['all'])
 			clear_output()
 			plt.imshow(img)
 			plt.pause(0.000000001)
