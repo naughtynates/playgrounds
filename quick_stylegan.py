@@ -27,9 +27,14 @@ class StyleGAN:
 		self.people = {}
 		self.files = {}
 
-	def add_person(self, name, paths=[]):
+	def add_person(self, name, paths=[], urls=[]):
 		if len(paths) > 0:
 			filenames = paths
+		elif len(urls) > 0:
+			filenames = []
+			for url in urls:
+				os.system('wget ' + url)
+				filename.append(url.split('/')[-1])
 		else:
 			filenames = [k for k,v in files.upload().items()]
 		face, embedding = utils.get_tar_inputs(filenames, self.fd, self.fv)
@@ -65,6 +70,7 @@ class StyleGAN:
 			clear_output()
 			plt.imshow(img)
 			plt.pause(0.000000001)
+			img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 			return img
 		if autosave:
 			auth.authenticate_user()
