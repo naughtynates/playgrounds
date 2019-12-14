@@ -75,22 +75,25 @@ class StyleGAN:
 			bounding_boxes = face_recognition.face_locations(img)
 			if len(bounding_boxes) > 0:
 				try:
-					src_encs = face_recognition.face_encodings(img, bounding_boxes)
-					tar_encs = [self.people[x]['rec_enc'] for x in face_map.keys()]
-					for i in range(len(src_encs)):
-						bb = bounding_boxes[i]
-						scores = face_recognition.compare_faces(tar_encs, src_encs[i])
-						matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
-						for match in matches:
-							adj = 20
-							x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
-							y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
-							face_img = img[x1:x2, y1:y2]
-							cv2.imwrite('temp.jpg', face_img)
-							face, face_img = self.image_swap('temp.jpg', face_map[match])
-							plt.pause(0.000000001)
-							img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
-				except AssertionError:
+					try:
+						src_encs = face_recognition.face_encodings(img, bounding_boxes)
+						tar_encs = [self.people[x]['rec_enc'] for x in face_map.keys()]
+						for i in range(len(src_encs)):
+							bb = bounding_boxes[i]
+							scores = face_recognition.compare_faces(tar_encs, src_encs[i])
+							matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
+							for match in matches:
+								adj = 20
+								x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
+								y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
+								face_img = img[x1:x2, y1:y2]
+								cv2.imwrite('temp.jpg', face_img)
+								face, face_img = self.image_swap('temp.jpg', face_map[match])
+								plt.pause(0.000000001)
+								img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
+					except AssertionError:
+						pass
+				except Exception:
 					pass
 			plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 			plt.pause(0.000000001)
