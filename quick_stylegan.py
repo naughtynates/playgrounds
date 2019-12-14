@@ -77,7 +77,7 @@ class StyleGAN:
 			if len(bounding_boxes) > 0:
 				src_encs = face_recognition.face_encodings(img, bounding_boxes)
 				tar_encs = [self.people[x]['rec_enc'] for x in face_map.keys()]
-				for i in rangea(len(src_encs)):
+				for i in range(len(src_encs)):
 					bb = bounding_boxes[i]
 					scores = face_recognition.compare_faces(tar_encs, src_encs[i])
 					matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
