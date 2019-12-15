@@ -69,6 +69,13 @@ class StyleGAN:
 		img = utils.post_process_result(filename, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
+	def get_frame(self, filename, frame_num):
+		cap = cv2.VideoCapture(self.files[filename])
+		total_frames = cap.get(7)
+		cap.set(1, frame_num)
+		__, img = cap.read()
+		return img
+
 	def video_swap(self, filename, out_path, face_map={}, frame_range=None, autosave=False):
 		def processor(img, frame_num):
 			if frame_range is None or (frame_num >= frame_range[0] and frame_num < frame_range[1]):
@@ -91,7 +98,6 @@ class StyleGAN:
 									face_img = self.auto_resize(face_img)
 									cv2.imwrite('temp.jpg', face_img)
 									face, face_img = self.image_swap('temp.jpg', face_map[match])
-									plt.pause(0.000000001)
 									face_img = cv2.resize(face_img, (original_shape[1], original_shape[0]))
 									face_img[face_img[:,:] == (0,0,0)] = img[x1:x2, y1:y2][face_img[:,:] == (0,0,0)] 
 									img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
