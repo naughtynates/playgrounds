@@ -16,7 +16,6 @@ class VideoEditor:
 		while 1:
 			ret, img = stream.read()
 			frame_num += 1
-			print('Frame:', frame_num)
 			if not ret or cv2.waitKey(25) & 0XFF == ord('q'):
 				cv2.destroyAllWindows()
 				break
