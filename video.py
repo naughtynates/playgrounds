@@ -8,8 +8,10 @@ class VideoEditor:
 	def process(self, in_path, out_path):
 		stream = cv2.VideoCapture(in_path)
 		fps = stream.get(cv2.CAP_PROP_FPS)
-		ret, img = stream.read()
-		img = self.f(img, 0)
+		img = None
+		while img is None:
+			ret, img = stream.read()
+			img = self.f(img, 0)
 		fourcc = cv2.VideoWriter_fourcc(*'MP4V')
 		out = cv2.VideoWriter(out_path, fourcc, fps, (img.shape[1], img.shape[0]))
 		frame_num = 0
