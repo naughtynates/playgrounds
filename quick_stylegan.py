@@ -83,7 +83,7 @@ class StyleGAN:
 								scores = face_recognition.compare_faces(tar_encs, src_encs[i])
 								matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
 								for match in matches:
-									adj = 40
+									adj = int(max(img.shape) * 0.1)
 									x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
 									y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
 									face_img = img[x1:x2, y1:y2]
