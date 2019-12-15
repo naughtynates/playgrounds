@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-from google.colab.patches import cv2_imshow
 
 class VideoEditor:
 	def __init__(self, f):
@@ -8,11 +7,11 @@ class VideoEditor:
 
 	def process(self, in_path, out_path):
 		stream = cv2.VideoCapture(in_path)
+		fps = stream.get(cv2.CAP_PROP_FPS)
 		ret, img = stream.read()
 		img = self.f(img, 0)
 		fourcc = cv2.VideoWriter_fourcc(*'MP4V')
-		out = cv2.VideoWriter(out_path, fourcc, 20.0, (img.shape[1], img.shape[0]))
-		#out = cv2.VideoWriter(out_path, -1, 20.0, (640,480))
+		out = cv2.VideoWriter(out_path, fourcc, fps, (img.shape[1], img.shape[0]))
 		frame_num = 0
 		while 1:
 			ret, img = stream.read()

@@ -69,37 +69,42 @@ class StyleGAN:
 		img = utils.post_process_result(filename, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
-	def video_swap(self, filename, out_path, face_map={}, autosave=False):
+	def video_swap(self, filename, out_path, face_map={}, frame_range=None, autosave=False):
 		def processor(img, frame_num):
-			img = self.auto_resize(img)
-			bounding_boxes = face_recognition.face_locations(img)
-			if len(bounding_boxes) > 0:
-				try:
+			if frame_range is None or (frame_num >= frame_range[0] and frame_num < frame_range[1]):
+				bounding_boxes = face_recognition.face_locations(img)
+				if len(bounding_boxes) > 0:
 					try:
-						src_encs = face_recognition.face_encodings(img, bounding_boxes)
-						tar_encs = [self.people[x]['rec_enc'] for x in face_map.keys()]
-						for i in range(len(src_encs)):
-							bb = bounding_boxes[i]
-							scores = face_recognition.compare_faces(tar_encs, src_encs[i])
-							matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
-							print(matches)
-							for match in matches:
-								adj = 30
-								x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
-								y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
-								face_img = img[x1:x2, y1:y2]
-								cv2.imwrite('temp.jpg', face_img)
-								face, face_img = self.image_swap('temp.jpg', face_map[match])
-								plt.pause(0.000000001)
-								img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
-					except AssertionError as e:
+						try:
+							src_encs = face_recognition.face_encodings(img, bounding_boxes)
+							tar_encs = [self.people[x]['rec_enc'] for x in face_map.keys()]
+							for i in range(len(src_encs)):
+								bb = bounding_boxes[i]
+								scores = face_recognition.compare_faces(tar_encs, src_encs[i])
+								matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
+								print(matches)
+								for match in matches:
+									adj = 40
+									x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
+									y1, y2 = np.max([0, bb[3] - adj]), np.min([img.shape[1], bb[1] + adj])
+									face_img = img[x1:x2, y1:y2]
+									original_shape = face_img.shape
+									face_img = self.auto_resize(face_img)
+									cv2.imwrite('temp.jpg', face_img)
+									face, face_img = self.image_swap('temp.jpg', face_map[match])
+									plt.pause(0.000000001)
+									face_img = cv2.resize(face_img, (original_shape[0], original_shape[1]))
+									face_img[face_img[:,:] == (0,0,0)] = img[x1:x2, y1:y2][face_img[:,:] == (0,0,0)] 
+									img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
+						except AssertionError as e:
+							print(e)
+					except Exception as e:
 						print(e)
-				except Exception as e:
-					print(e)
-			if frame_num % 30 == 0:
+			if frame_num % 300 == 0:
 				clear_output()
-			plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-			plt.pause(0.000000001)
+			if frame_num % 10 == 0:
+				plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+				plt.pause(0.000000001)
 			return img
 		if autosave:
 			auth.authenticate_user()
