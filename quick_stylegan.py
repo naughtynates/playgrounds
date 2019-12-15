@@ -99,12 +99,12 @@ class StyleGAN:
 							print(e)
 					except Exception as e:
 						print(e)
-			if frame_num % 300 == 0:
-				clear_output()
-			if frame_num % 10 == 0:
-				plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-				print('Frame:', frame_num)
-				plt.pause(0.000000001)
+				if frame_num % 300 == 0:
+					clear_output()
+				if frame_num % 10 == 0:
+					plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+					print('Frame:', frame_num)
+					plt.pause(0.000000001)
 			return img
 		if autosave:
 			auth.authenticate_user()
