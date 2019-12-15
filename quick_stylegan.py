@@ -74,7 +74,8 @@ class StyleGAN:
 		total_frames = cap.get(7)
 		cap.set(1, frame_num)
 		__, img = cap.read()
-		return img
+		cv2.destroyAllWindows()
+		return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 	def video_swap(self, filename, out_path, face_map={}, frame_range=None, autosave=False):
 		def processor(img, frame_num):
