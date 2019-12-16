@@ -3,6 +3,7 @@ import requests
 import os
 from shutil import make_archive, copyfile
 from zipfile import ZipFile
+from google_drive_downloader import GoogleDriveDownloader as gdd
 from google.colab import files
 from .utils import mount_drive
 
@@ -46,17 +47,16 @@ class GPT2:
 		copyfile(self.drive_path + weights_name + '.zip', weights_name + '.zip')
 		self.unpack_weights(weights_name + '.zip')
 
-	def load(self, bot_name=None, url=None):
+	def load(self, bot_name):
 		urls = {
-			'shakespeare': 'https://drive.google.com/open?id=1zvfzFcT2YsJXHNLuAmClnuMHoJuTNWyd',
+			'shakespeare': 'https://drive.google.com/uc?export=download&id=1zvfzFcT2YsJXHNLuAmClnuMHoJuTNWyd',
 		}
-		if bot_name is not None:
-			url = urls[bot_name]
-		print('downloading weights...')
-		os.system('wget ' + url)
-		os.rename(url.split('/')[-1], 'temp.zip')
-		self.unpack_weights('temp.zip')
-
+		bot_id = urls[bot_name].split('id=')[-1].split('&')[0]
+		gdd.download_file_from_google_drive(
+			file_id=bot_id,
+			dest_path='checkpoint/' + self.name + '.zip',
+			unzip=True
+		)
 
 	def unpack_weights(self, filename):
 		with ZipFile(filename, 'r') as z:
