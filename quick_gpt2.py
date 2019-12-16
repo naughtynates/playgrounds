@@ -54,9 +54,10 @@ class GPT2:
 		bot_id = urls[bot_name].split('id=')[-1].split('&')[0]
 		gdd.download_file_from_google_drive(
 			file_id=bot_id,
-			dest_path='checkpoint/' + self.name + '.zip',
+			dest_path='checkpoint/' + self.name + '/temp.zip',
 			unzip=True
 		)
+		os.remove('checkpoint/' + self.name + '/temp.zip')
 
 	def unpack_weights(self, filename):
 		with ZipFile(filename, 'r') as z:
