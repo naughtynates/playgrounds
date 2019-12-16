@@ -50,6 +50,3 @@ def mount_drive(drive_path='/content/drive/'):
 
 
 
-
-
-

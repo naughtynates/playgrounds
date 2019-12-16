@@ -44,9 +44,24 @@ class GPT2:
 	def load_from_drive(self, weights_name):
 		self.drive_path = mount_drive()
 		copyfile(self.drive_path + weights_name + '.zip', weights_name + '.zip')
-		with ZipFile(weights_name + '.zip', 'r') as z:
+		self.unpack_weights(weights_name + '.zip')
+
+	def load(self, bot_name=None, url=None):
+		urls = {
+			'shakespeare': 'https://www.dropbox.com/s/4d9cunszlhbye9r/model.zip',
+		}
+		if bot_name is not None:
+			url = urls[bot_name]
+		with open('temp.zip', 'wb') as f:
+			r = requests.get(url)
+			f.write(r.content)
+		self.unpack_weights('temp.zip')
+
+
+	def unpack_weights(self, filename):
+		with ZipFile(filename, 'r') as z:
 			z.extractall('checkpoint/' + self.name)
-		os.remove(weights_name + '.zip')
+		os.remove(filename)
 
 	def generate(self, prefix=None, length=1023):
 		self.check_model()
