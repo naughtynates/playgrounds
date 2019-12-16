@@ -52,10 +52,8 @@ class GPT2:
 		}
 		if bot_name is not None:
 			url = urls[bot_name]
-		with open('temp.zip', 'wb') as f:
-			r = requests.get(url)
-			f.write(r.content)
-		self.unpack_weights('temp.zip')
+		os.system('wget ' + url)
+		self.unpack_weights(url.split('/')[-1])
 
 
 	def unpack_weights(self, filename):
