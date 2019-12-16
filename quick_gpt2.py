@@ -63,12 +63,13 @@ class GPT2:
 			z.extractall('checkpoint/' + self.name)
 		os.remove(filename)
 
-	def generate(self, prefix=None, length=1023):
+	def generate(self, prefix=None, num_samples=1, length=1023):
 		self.check_model()
 		args = dict(
 				model_name=self.base_model, 
 				length=length,
 				return_as_list=True,
+				num_samples=num_samples,
 		)
 		if prefix is not None:
 			args['prefix'] = prefix
@@ -79,6 +80,9 @@ class GPT2:
 		else:
 			args['run_name'] = self.name
 			gpt2.load_gpt2(sess, run_name=self.name)
-		return str(gpt2.generate(sess, **args)[0])
-
+		output = [str(x) for x in gpt2.generate(sess, **args)]
+		if num_samples == 1:
+			return output[0]
+		else:
+			return output
 
