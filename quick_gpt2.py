@@ -54,7 +54,8 @@ class GPT2:
 			url = urls[bot_name]
 		print('downloading weights...')
 		os.system('wget ' + url)
-		self.unpack_weights(url.split('/')[-1])
+		os.rename(url.split('/')[-1], 'temp.zip')
+		self.unpack_weights('temp.zip')
 
 
 	def unpack_weights(self, filename):
