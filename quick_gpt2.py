@@ -70,7 +70,7 @@ class GPT2:
 				model_name=self.base_model, 
 				length=length,
 				return_as_list=True,
-				num_samples=num_samples,
+				nsamples=num_samples,
 		)
 		if prefix is not None:
 			args['prefix'] = prefix
