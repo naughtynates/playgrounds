@@ -48,7 +48,7 @@ class GPT2:
 
 	def load(self, bot_name=None, url=None):
 		urls = {
-			'shakespeare': 'https://www.dropbox.com/s/4d9cunszlhbye9r/model.zip',
+			'shakespeare': 'https://www.dropbox.com/s/4d9cunszlhbye9r/model.zip?dl=0',
 		}
 		if bot_name is not None:
 			url = urls[bot_name]
