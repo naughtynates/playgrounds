@@ -7,17 +7,17 @@ import os
 def restart_runtime():
   os.kill(os.getpid(), 9)
 
-def save_to_drive(name, path):
+def save_to_drive(local_path, drive_path):
 	auth.authenticate_user()
 	drive_service = build('drive', 'v3')
 
 	file_metadata = {
-		'name': name,
+		'name': drive_path,
 		'mimeType': 'application/octet-stream'
 	}
 
 	media = MediaFileUpload(
-		path, 
+		local_path, 
 		mimetype='application/octet-stream',
 		resumable=True
 	)
@@ -29,10 +29,10 @@ def save_to_drive(name, path):
 	).execute()
 	return created.get('id')
 
-def load_from_drive(name, path):
+def load_from_drive(drive_path, local_path):
 	drive.mount('/content/drive')
-	with open(path, 'rb') as f:
-		with open('/content/drive/My Drive/' + name, 'wb') as w:
+	with open(local_path, 'rb') as f:
+		with open('/content/drive/My Drive/' + drive_path, 'wb') as w:
 	  		w.write(f.read())
 	drive.flush_and_unmount()
 
