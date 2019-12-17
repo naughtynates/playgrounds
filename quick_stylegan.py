@@ -85,15 +85,11 @@ class StyleGAN:
 					try:
 						try:
 							src_encs = face_recognition.face_encodings(img, bounding_boxes)
-							tar_encs = [self.people[x]['rec_enc'] for x in face_map.keys() if x != '*']
+							tar_encs = [self.people[x]['rec_enc'] for x in face_map.keys()]
 							for i in range(len(src_encs)):
 								bb = bounding_boxes[i]
-								if '*' not in list(face_map.keys()):
-									scores = face_recognition.compare_faces(tar_encs, src_encs[i])
-									matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
-								else:
-									matches = ['*']	
-
+								scores = face_recognition.compare_faces(tar_encs, src_encs[i])
+								matches = [list(face_map.keys())[i] for i in range(len(scores)) if scores[i] == 1]
 								for match in matches:
 									adj = int(max(img.shape) * 0.1)
 									x1, x2 = np.max([0, bb[0] - adj]), np.min([img.shape[0], bb[2] + adj])
