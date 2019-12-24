@@ -104,7 +104,7 @@ class StyleGAN:
 									cv2.imwrite('temp.jpg', face_img)
 									face, face_img = self.image_swap('temp.jpg', face_map[match])
 									face_img = cv2.resize(face_img, (original_shape[1], original_shape[0]))
-									face_img[face_img[:,:] == (0,0,0)] = img[x1:x2, y1:y2][face_img[:,:] == (0,0,0)] 
+									face_img[face_img[:,:] == (0,0,0)] = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)[x1:x2, y1:y2][face_img[:,:] == (0,0,0)] 
 									img[x1:x2, y1:y2] = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
 						except AssertionError as e:
 							print(e)
