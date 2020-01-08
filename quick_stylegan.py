@@ -69,7 +69,7 @@ class StyleGAN:
 		img = utils.post_process_result(filename, self.fd, face, aligned_im, src, x0, y0, x1, y1, landmarks)
 		return face, img
 
-	def image_swap2(self, filename, face_map={}):
+	def image_swap2(self, img, face_map={}):
 		bounding_boxes = face_recognition.face_locations(img)
 		fm = {k:v for k,v in face_map.items() if k != '*'}
 		if len(bounding_boxes) > 0:
