@@ -31,8 +31,8 @@ def save_to_drive(local_path, drive_path):
 
 def load_from_drive(drive_path, local_path):
 	drive.mount('/content/drive')
-	with open(local_path, 'rb') as f:
-		with open('/content/drive/My Drive/' + drive_path, 'wb') as w:
+	with open('/content/drive/My Drive/' + drive_path, 'rb') as f:
+		with open(local_path, 'wb') as w:
 	  		w.write(f.read())
 	drive.flush_and_unmount()
 
