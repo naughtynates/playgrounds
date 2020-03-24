@@ -51,7 +51,7 @@ class DeepMusicVisualizer(object):
 		else:
 			self.num_classes=12
 
-	def run(self, output_file):
+	def generate(self, output_file):
 		if self.song:
 			song=self.song
 			print('\nReading audio \n')
@@ -149,7 +149,7 @@ class DeepMusicVisualizer(object):
 		chroma = librosa.feature.chroma_cqt(y=y, sr=sr, hop_length=frame_length)
 
 		#sort pitches by overall power 
-		chromasort=np.selfort(np.mean(chroma,axis=1))[::-1]
+		chromasort=np.argsort(np.mean(chroma,axis=1))[::-1]
 
 
 
@@ -175,7 +175,7 @@ class DeepMusicVisualizer(object):
 
 		if sort_classes_by_power==1:
 
-			classes=[classes[s] for s in np.selfort(chromasort[:num_classes])]
+			classes=[classes[s] for s in np.argsort(chromasort[:num_classes])]
 
 
 
