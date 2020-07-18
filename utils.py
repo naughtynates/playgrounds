@@ -41,7 +41,7 @@ def mount_drive(drive_path='/content/drive/'):
 	drive.mount(drive_path)
 	return drive_path + 'My Drive/'
 
-def wrap_text():
+def colab_word_wrap():
 	def set_css():
 		display(HTML('''
 			<style>
