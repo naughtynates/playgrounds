@@ -3,6 +3,7 @@ from googleapiclient.http import MediaFileUpload
 from googleapiclient.discovery import build
 from google.colab import drive
 import os
+from IPython.display import HTML, display
 
 def restart_runtime():
   os.kill(os.getpid(), 9)
@@ -40,6 +41,16 @@ def mount_drive(drive_path='/content/drive/'):
 	drive.mount(drive_path)
 	return drive_path + 'My Drive/'
 
+def wrap_text():
+	def set_css():
+		display(HTML('''
+			<style>
+				pre {
+					white-space: pre-wrap;
+				}
+			</style>
+		'''))
+	get_ipython().events.register('pre_run_cell', set_css)
 
 
 
